@@ -1,8 +1,8 @@
 import { test, expect, Page } from '@playwright/test'
 
 test.describe('check Login function', () => {
-    
-    let loginButton : any
+
+    let loginButton: any
     const userEmail = 'user@demo.com'
     const userPassword = 'user123'
 
@@ -13,12 +13,12 @@ test.describe('check Login function', () => {
         await expect(page).toHaveTitle('Повнофункціональний фінансовий менеджер')
         loginButton = page.getByTestId('login-submit-button')
     })
- 
+
     test('check logo', async ({ page }) => {
         const logo = page.locator('.lucide-log-in')
-        await expect(logo).toBeVisible({timeout:1000})
-        await expect(logo).toHaveAttribute('width','24')
-        await expect(logo).toHaveAttribute('height','24')
+        await expect(logo).toBeVisible({ timeout: 1000 })
+        await expect(logo).toHaveAttribute('width', '24')
+        await expect(logo).toHaveAttribute('height', '24')
     })
 
     test('check title', async ({ page }) => {
@@ -37,7 +37,7 @@ test.describe('check Login function', () => {
         await expect(loginButton).toBeVisible()
         await expect(loginButton).toBeEnabled()
         await expect(loginButton).toHaveText('Увійти')
-        await expect(loginButton).toHaveCSS('background-color','rgb(22, 163, 74)')
+        await expect(loginButton).toHaveCSS('background-color', 'rgb(22, 163, 74)')
     })
 
     test('check Sign Up link', async ({ page }) => {
@@ -47,13 +47,13 @@ test.describe('check Login function', () => {
     })
 
 
-    test('enter valid user email and password', async ({ page }) =>{
+    test('enter valid user email and password', async ({ page }) => {
 
         //await test.step
         const emailInput = page.getByTestId('login-email-input')
         await expect(emailInput).toBeVisible()
         await expect(emailInput).toBeEnabled()
-        await expect(emailInput).toHaveAttribute('placeholder','your@email.com')
+        await expect(emailInput).toHaveAttribute('placeholder', 'your@email.com')
         await emailInput.fill(userEmail)
         await expect(emailInput).toHaveValue(userEmail)
 
@@ -67,7 +67,7 @@ test.describe('check Login function', () => {
         await loginButton.click()
 
         const userAvatar = page.getByTestId('user-menu-trigger')
-        await expect(userAvatar).toBeVisible({timeout:2000})
+        await expect(userAvatar).toBeVisible({ timeout: 2000 })
         await expect(userAvatar).toHaveText('User Demo')
     })
 
