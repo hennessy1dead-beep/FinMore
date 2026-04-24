@@ -1,6 +1,7 @@
 import { test, expect, Locator } from '@playwright/test'
 import { RegisterPage } from '../pages/RegisterPage'
 import { LoginPage } from '../pages/LoginPage'
+import { generateRandomUser } from '../helpers/dataRandomizer'
 
 test.describe('Test sign up function', () => {
 
@@ -13,6 +14,8 @@ test.describe('Test sign up function', () => {
     const invalidPassword = '123'
     const validConfirmationPassword = 'password123'
     const invalidConfirmationPassword = 'password'
+
+    const user = generateRandomUser()
 
 
     test.beforeEach(async ({ page }) => {
@@ -56,12 +59,12 @@ test.describe('Test sign up function', () => {
 
     test('Register with valid credentials', async () => {
 
-        await registerPage.fillFormAndRegister(validName, validEmail, validPassword, validConfirmationPassword)
+        await registerPage.fillFormAndRegister(user.name, user.email, user.password, user.password)
         await expect(registerPage.header.userMenu).toBeVisible()
-        await expect(registerPage.header.userMenu).toHaveText(validName)
+        await expect(registerPage.header.userMenu).toHaveText(user.name)
     })
 
-
+//refactor
     test('Register with invalid password', async () => {
 
         await registerPage.fillFormAndRegister(validName, validEmail, invalidPassword, validConfirmationPassword)
@@ -69,7 +72,7 @@ test.describe('Test sign up function', () => {
         await expect(registerPage.invalidPasswordError).toHaveText('Пароль повинен містити мінімум 6 символів')
     })
 
-
+//refactor
     test('Register with invalid confirmation password', async () => {
 
         await registerPage.fillFormAndRegister(validName, validEmail, validPassword, invalidConfirmationPassword)
@@ -77,6 +80,7 @@ test.describe('Test sign up function', () => {
         await expect(registerPage.invalidConfirmationPasswordError).toHaveText('Паролі не співпадають')
     })
 
+//refactor
     test('Verify show/hide password option', async () => {
 
         //enter password
