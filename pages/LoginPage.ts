@@ -1,7 +1,9 @@
 import { Page, Locator } from '@playwright/test'
+import { Header } from './components/Header'
 
 export class LoginPage {
     readonly page: Page
+
     readonly logo: Locator
     readonly title: Locator
     readonly subtitle: Locator
@@ -9,7 +11,8 @@ export class LoginPage {
     readonly signUplink: Locator
     readonly emailInput: Locator
     readonly passwordInput: Locator
-    readonly userAvatar: Locator
+    
+    readonly header: Header
 
     constructor(page: Page) {
         this.page = page
@@ -20,6 +23,32 @@ export class LoginPage {
         this.signUplink = page.getByTestId('switch-to-register-button')
         this.emailInput = page.getByTestId('login-email-input')
         this.passwordInput = page.getByTestId('login-password-input')
-        this.userAvatar = page.getByTestId('user-menu-trigger')
+        this.header = new Header(page)
+    }
+
+    async openMainPage() {
+        await this.page.goto('baseURL')
+    }
+
+    async fillAndLogin(email: string, password: string) {
+        await this.emailInput.fill(email)
+        await this.passwordInput.fill(password)
+        await this.loginButton.click()
+    }
+
+    async fillEmail(email: string) {
+        await this.emailInput.fill(email)
+    }
+
+    async fillPassword(password: string) {
+        await this.passwordInput.fill(password)
+    }
+
+    async clickLoginButton() {
+        await this.loginButton.click()
+    }
+
+    async clickSignUpLink(){
+        await this.signUplink.click()
     }
 }
