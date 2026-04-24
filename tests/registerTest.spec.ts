@@ -25,7 +25,7 @@ test.describe('Test sign up function', () => {
         await expect(registerPage.registerTitle).toHaveText('Реєстрація')
     })
 
-    test('Verify sign up page elements', async ({ page }) => {
+    test('Verify sign up page elements', async () => {
 
         //name input
         await expect(registerPage.nameInput).toBeVisible()
@@ -54,7 +54,7 @@ test.describe('Test sign up function', () => {
     })
 
 
-    test('Register with valid credentials', async ({ page }) => {
+    test('Register with valid credentials', async () => {
 
         await registerPage.fillFormAndRegister(validName, validEmail, validPassword, validConfirmationPassword)
         await expect(registerPage.header.userMenu).toBeVisible()
@@ -62,7 +62,7 @@ test.describe('Test sign up function', () => {
     })
 
 
-    test('Register with invalid password', async ({ page }) => {
+    test('Register with invalid password', async () => {
 
         await registerPage.fillFormAndRegister(validName, validEmail, invalidPassword, validConfirmationPassword)
         await expect(registerPage.invalidPasswordError).toBeVisible()
@@ -70,14 +70,14 @@ test.describe('Test sign up function', () => {
     })
 
 
-    test('Register with invalid confirmation password', async ({ page }) => {
+    test('Register with invalid confirmation password', async () => {
 
         await registerPage.fillFormAndRegister(validName, validEmail, validPassword, invalidConfirmationPassword)
-        await expect(registerPage.InvalidConfirmationPasswordError).toBeVisible()
-        await expect(registerPage.InvalidConfirmationPasswordError).toHaveText('Паролі не співпадають')
+        await expect(registerPage.invalidConfirmationPasswordError).toBeVisible()
+        await expect(registerPage.invalidConfirmationPasswordError).toHaveText('Паролі не співпадають')
     })
 
-    test('Verify show/hide password option', async ({ page }) => {
+    test('Verify show/hide password option', async () => {
 
         //enter password
         await registerPage.fillPassword(validPassword)

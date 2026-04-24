@@ -1,4 +1,4 @@
-import { Page, Locator } from 'playwright/test'
+import { Page, Locator } from '@playwright/test'
 import { Header } from './components/Header'
 
 export class RegisterPage {
@@ -16,7 +16,7 @@ export class RegisterPage {
     readonly registerButton: Locator
 
     readonly invalidPasswordError: Locator
-    readonly InvalidConfirmationPasswordError: Locator
+    readonly invalidConfirmationPasswordError: Locator
 
     readonly header: Header
 
@@ -35,7 +35,7 @@ export class RegisterPage {
         this.registerButton = page.getByTestId('register-submit-button')
 
         this.invalidPasswordError = page.getByTestId('password-error')
-        this.InvalidConfirmationPasswordError = page.getByTestId('confirm-password-error')
+        this.invalidConfirmationPasswordError = page.getByTestId('confirm-password-error')
 
         this.header = new Header(page)
     }
@@ -45,7 +45,7 @@ export class RegisterPage {
         await this.emailInput.fill(email)
         await this.passwordInput.fill(password)
         await this.confirmationPasswordInput.fill(confirmationPassword)
-        await this.registerButton.click()
+        await this.registerButton.click({timeout: 1000})
     }
 
     async fillPassword(password: string) {
