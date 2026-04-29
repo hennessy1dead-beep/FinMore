@@ -12,8 +12,8 @@ test.describe('Test sign up function', () => {
     const invalidPassword = '123'
     const invalidConfirmationPassword = 'password'
 
-    const user = generateFakeUser() 
-    //or const user = generateRandomUser()
+    const user = generateRandomUser()
+    //or const user = generateFakeUser() 
 
 
     test.beforeEach(async ({ page }) => {

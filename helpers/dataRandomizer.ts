@@ -9,9 +9,9 @@ export interface User {
 
 
 //generate email
-const firstNames = ['Ivan', 'Anna', 'Oleg', 'Maria', 'Dmytro']
-const lastNames = ['Petrenko', 'Shevchenko', 'Koval', 'Melnyk', 'Tkachenko']
-const domains = ['gmail.com', 'company.com', 'hotmail.io']
+const firstNames = ['James', 'Emily', 'Michael', 'Sarah', 'David', 'Ashley', 'John', 'Jessica', 'Daniel', 'Lauren']
+const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Miller', 'Davis', 'Anderson', 'Wilson', 'Taylor']
+const domains = ['hubspot.com', 'klaviyo.com', 'clay.com', 'gmail.com', 'outlook.com']
 
 const getRandomItem = <T>(arr: T[]): T => {
     return arr[Math.floor(Math.random() * arr.length)]
@@ -47,12 +47,15 @@ export const generateStrongPassword = () => {
         getRandom(upper),
         getRandom(numbers),
         getRandom(lower),
+        getRandom(lower),
+        getRandom(upper),
+        getRandom(numbers),
+        getRandom(lower),
     ]
 
 
     return passwordArray.sort(() => Math.random() - 0.5).join('')
 }
-
 
 
 //build user + allow to overwrite
