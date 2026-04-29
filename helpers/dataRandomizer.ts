@@ -1,7 +1,16 @@
 // utils/userFactory.ts
+
+export interface User {
+    name: string
+    email: string
+    password: string
+    confirmPassword: string
+}
+
+
+//generate email
 const firstNames = ['Ivan', 'Anna', 'Oleg', 'Maria', 'Dmytro']
 const lastNames = ['Petrenko', 'Shevchenko', 'Koval', 'Melnyk', 'Tkachenko']
-
 const domains = ['gmail.com', 'company.com', 'hotmail.io']
 
 const getRandomItem = <T>(arr: T[]): T => {
@@ -19,6 +28,7 @@ export const generatePrettyEmail = (firstName: string, lastName: string) => {
 }
 
 
+//generate password
 export const generateStrongPassword = () => {
     const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     const lower = 'abcdefghijklmnopqrstuvwxyz'
@@ -44,14 +54,10 @@ export const generateStrongPassword = () => {
 }
 
 
-export interface User {
-    name: string
-    email: string
-    password: string
-}
 
+//build user + allow to overwrite
 
-export const generateRandomUser = (): User => {
+export const generateRandomUser = (overrides: Partial<User> = {}): User => {
     const firstName = getRandomItem(firstNames)
     const lastName = getRandomItem(lastNames)
     const email = generatePrettyEmail(firstName, lastName)
@@ -60,7 +66,9 @@ export const generateRandomUser = (): User => {
     return {
         name: `${firstName} ${lastName}`,
         email: email,
-        password: password
+        password: password,
+        confirmPassword: password,
+        ...overrides,
     }
 }
 

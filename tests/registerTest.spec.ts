@@ -2,20 +2,18 @@ import { test, expect, Locator } from '@playwright/test'
 import { RegisterPage } from '../pages/RegisterPage'
 import { LoginPage } from '../pages/LoginPage'
 import { generateRandomUser } from '../helpers/dataRandomizer'
+import { generateFakeUser } from '../helpers/dataFaker'
 
 test.describe('Test sign up function', () => {
 
     let loginPage: LoginPage
     let registerPage: RegisterPage
 
-    const validName = 'Ванесса Паради'
-    const validEmail = 'vanessa@gmail.com'
-    const validPassword = 'password123'
     const invalidPassword = '123'
-    const validConfirmationPassword = 'password123'
     const invalidConfirmationPassword = 'password'
 
-    const user = generateRandomUser()
+    const user = generateFakeUser() 
+    //or const user = generateRandomUser()
 
 
     test.beforeEach(async ({ page }) => {
@@ -59,33 +57,33 @@ test.describe('Test sign up function', () => {
 
     test('Register with valid credentials', async () => {
 
-        await registerPage.fillFormAndRegister(user.name, user.email, user.password, user.password)
+        await registerPage.fillFormAndRegister(user.name, user.email, user.password, user.confirmPassword)
         await expect(registerPage.header.userMenu).toBeVisible()
         await expect(registerPage.header.userMenu).toHaveText(user.name)
     })
 
-//refactor
+
     test('Register with invalid password', async () => {
 
-        await registerPage.fillFormAndRegister(validName, validEmail, invalidPassword, validConfirmationPassword)
+        await registerPage.fillFormAndRegister(user.name, user.email, invalidPassword, invalidPassword)
         await expect(registerPage.invalidPasswordError).toBeVisible()
         await expect(registerPage.invalidPasswordError).toHaveText('Пароль повинен містити мінімум 6 символів')
     })
 
-//refactor
+
     test('Register with invalid confirmation password', async () => {
 
-        await registerPage.fillFormAndRegister(validName, validEmail, validPassword, invalidConfirmationPassword)
+        await registerPage.fillFormAndRegister(user.name, user.email, user.password, invalidConfirmationPassword)
         await expect(registerPage.invalidConfirmationPasswordError).toBeVisible()
         await expect(registerPage.invalidConfirmationPasswordError).toHaveText('Паролі не співпадають')
     })
 
-//refactor
+
     test('Verify show/hide password option', async () => {
 
         //enter password
-        await registerPage.fillPassword(validPassword)
-        await expect(registerPage.passwordInput).toHaveValue(validPassword)
+        await registerPage.fillPassword(user.password)
+        await expect(registerPage.passwordInput).toHaveValue(user.password)
 
         //click 1st time
         await registerPage.eyePasswordButtonClick()
@@ -96,8 +94,8 @@ test.describe('Test sign up function', () => {
         await expect(registerPage.passwordInput).toHaveAttribute('type', 'password')
 
         //enter confirmation password
-        await registerPage.fillConfirmationPassword(validConfirmationPassword)
-        await expect(registerPage.confirmationPasswordInput).toHaveValue(validConfirmationPassword)
+        await registerPage.fillConfirmationPassword(user.confirmPassword)
+        await expect(registerPage.confirmationPasswordInput).toHaveValue(user.confirmPassword)
 
         //click 1st time
         await registerPage.eyeConfirmationPasswordButtonClick()
