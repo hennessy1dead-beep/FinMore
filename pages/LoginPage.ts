@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test'
 import { Header } from './components/Header'
+import { Actions } from '../helpers/Actions'
 
 export class LoginPage {
     readonly page: Page
@@ -11,7 +12,7 @@ export class LoginPage {
     readonly signUplink: Locator
     readonly emailInput: Locator
     readonly passwordInput: Locator
-    
+
     readonly header: Header
 
     constructor(page: Page) {
@@ -30,25 +31,15 @@ export class LoginPage {
         await this.page.goto('baseURL')
     }
 
+
     async fillAndLogin(email: string, password: string) {
-        await this.emailInput.fill(email)
-        await this.passwordInput.fill(password)
-        await this.loginButton.click()
+        await Actions.fillField(this.emailInput, email, 'Email адреса')
+        await Actions.fillField(this.passwordInput, password, 'Пароль')
+        await Actions.click(this.loginButton, 'Увійти')
     }
 
-    async fillEmail(email: string) {
-        await this.emailInput.fill(email)
-    }
 
-    async fillPassword(password: string) {
-        await this.passwordInput.fill(password)
-    }
-
-    async clickLoginButton() {
-        await this.loginButton.click()
-    }
-
-    async clickSignUpLink(){
-        await this.signUplink.click()
+    async clickSignUpLink() {
+        await Actions.click(this.signUplink, 'Зареєструватися')
     }
 }

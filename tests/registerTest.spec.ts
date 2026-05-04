@@ -15,6 +15,7 @@ test.describe('Test sign up function', () => {
     const user = generateRandomUser()
     //or const user = generateFakeUser() 
 
+    const currencyUsd = 'USD'
 
     test.beforeEach(async ({ page }) => {
         loginPage = new LoginPage(page)
@@ -55,9 +56,11 @@ test.describe('Test sign up function', () => {
     })
 
 
-    test('Register with valid credentials', async () => {
+//сделать селект по лейблу
 
-        await registerPage.fillFormAndRegister(user.name, user.email, user.password, user.confirmPassword)
+    test('Register with valid credentials', async () => {
+        
+        await registerPage.fillFormAndRegister(user.name, user.email, user.password, user.confirmPassword, currencyUsd)
         await expect(registerPage.header.userMenu).toBeVisible()
         await expect(registerPage.header.userMenu).toHaveText(user.name)
     })
@@ -65,7 +68,7 @@ test.describe('Test sign up function', () => {
 
     test('Register with invalid password', async () => {
 
-        await registerPage.fillFormAndRegister(user.name, user.email, invalidPassword, invalidPassword)
+        await registerPage.fillFormAndRegister(user.name, user.email, invalidPassword, invalidPassword, currencyUsd)
         await expect(registerPage.invalidPasswordError).toBeVisible()
         await expect(registerPage.invalidPasswordError).toHaveText('Пароль повинен містити мінімум 6 символів')
     })
@@ -73,7 +76,7 @@ test.describe('Test sign up function', () => {
 
     test('Register with invalid confirmation password', async () => {
 
-        await registerPage.fillFormAndRegister(user.name, user.email, user.password, invalidConfirmationPassword)
+        await registerPage.fillFormAndRegister(user.name, user.email, user.password, invalidConfirmationPassword, currencyUsd)
         await expect(registerPage.invalidConfirmationPasswordError).toBeVisible()
         await expect(registerPage.invalidConfirmationPasswordError).toHaveText('Паролі не співпадають')
     })

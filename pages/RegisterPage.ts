@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test'
 import { Header } from './components/Header'
+import { Actions } from '../helpers/Actions'
 
 export class RegisterPage {
     readonly page: Page
@@ -17,6 +18,8 @@ export class RegisterPage {
 
     readonly invalidPasswordError: Locator
     readonly invalidConfirmationPasswordError: Locator
+
+    readonly currencyDropdown: Locator
 
     readonly header: Header
 
@@ -37,30 +40,33 @@ export class RegisterPage {
         this.invalidPasswordError = page.getByTestId('password-error')
         this.invalidConfirmationPasswordError = page.getByTestId('confirm-password-error')
 
+        this.currencyDropdown = page.getByTestId('register-currency-select')
+
         this.header = new Header(page)
     }
 
-    async fillFormAndRegister(name: string, email: string, password: string, confirmationPassword: string) {
-        await this.nameInput.fill(name)
-        await this.emailInput.fill(email)
-        await this.passwordInput.fill(password)
-        await this.confirmationPasswordInput.fill(confirmationPassword)
-        await this.registerButton.click({timeout: 1000})
+    async fillFormAndRegister(name: string, email: string, password: string, confirmationPassword: string, currency: string) {
+        await Actions.fillField(this.nameInput, name, 'Повне імя')
+        await Actions.fillField(this.emailInput, email, 'Email адреса')
+        await Actions.fillField(this.passwordInput, password, 'Пароль')
+        await Actions.fillField(this.confirmationPasswordInput, confirmationPassword, 'Підтвердження паролю')
+        await Actions.selectDropdown(this.currencyDropdown, currency, 'Основна валюта')
+        await Actions.click(this.registerButton, 'Зареєструватися')
     }
 
     async fillPassword(password: string) {
-        await this.passwordInput.fill(password)
+        await Actions.fillField(this.passwordInput, password, 'Пароль')
     }
 
     async fillConfirmationPassword(confirmationPassword: string) {
-        await this.confirmationPasswordInput.fill(confirmationPassword)
+        await Actions.fillField(this.confirmationPasswordInput, confirmationPassword, 'Підтвердження паролю')
     }
 
     async eyePasswordButtonClick() {
-        await this.eyePasswordButton.click()
+        await Actions.click(this.eyePasswordButton, 'Вічко на пароль')
     }
 
     async eyeConfirmationPasswordButtonClick() {
-        await this.eyeConfirmationPasswordButton.click()
+        await Actions.click(this.eyeConfirmationPasswordButton, 'Вічко на підтвердження паролю')
     }
 }
