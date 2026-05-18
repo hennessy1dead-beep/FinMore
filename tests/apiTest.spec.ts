@@ -52,7 +52,7 @@ test.describe('WordPress Posts API - CRUD Tests', () => {
 
     })
 
-    //положительный тест для создания запланированного поста с категориями и тегами
+    //положительный тест для создания запланированного поста с параметром sticky
     test('CREATE - Should create scheduled sticky post', async ({ request }) => {
         const postData = {
             title: 'Test Post from Playwright',
