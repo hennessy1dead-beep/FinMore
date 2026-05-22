@@ -29,6 +29,11 @@ test.describe('WordPress Posts API - CRUD Tests', () => {
     })
 
     test('CREATE - Should create a new post', async ({ request }) => {
+
+        // const getId = await request.get('https://dev.emeli.in.ua/wp-json/wp/v2/posts/25126')
+        // const oldId = await getId.json()
+        // const previousId = await oldId.id
+
         const postData = {
             title: 'Test Post from Playwright',
             content: 'This is test content created via API automation',
@@ -40,15 +45,49 @@ test.describe('WordPress Posts API - CRUD Tests', () => {
             data: postData
         })
 
+
         expect(response.ok()).toBeTruthy()
         expect(response.status()).toBe(201)
         const responseBody = await response.json()
 
         createdPostId = responseBody.id
         expect(responseBody).toHaveProperty('id')
+        expect(responseBody.id).not.toBe('') //проверяет что не пустое
+
+        //expect(responseBody.id).toBeGreaterThan(previousId) //проверяет что id больше предыдущего
+
+        //проверяет что дата имеет правильный формат
+        const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/
+        expect(responseBody.date).toMatch(isoRegex)
+
+        //проверяет что ссылка имеет правильный формат
+        const urlRegex = /^https:\/\/[a-z0-9.-]+\.[a-z]{2,}(\/.*)?$/i
+        expect(responseBody.link).toMatch(urlRegex)
+
+        //проверяет на типы полей
+        expect(typeof responseBody.status).toBe('string')
+        expect(typeof responseBody.id).toBe('number')
+        expect(typeof responseBody.sticky).toBe('boolean')
+        expect(Array.isArray(responseBody.tags)).toBe(true) // проверяем на массив
+
+
         expect(responseBody.title.rendered).toBe(postData.title)
         expect(responseBody.status).toBe('publish')
         console.log('Created post ID:', createdPostId)
+
+
+        expect(responseBody.tags).toHaveLength(0)//проверяет что массив тегов пустой
+
+        expect(responseBody.categories).toEqual([1])//проверяет что массив категорий содержит только 1
+
+        const classes = responseBody['class-list'] //проверяет что в классе есть post-{id} и type
+        expect(classes).toEqual(
+            expect.arrayContaining([
+                expect.stringMatching(/^post-\d+$/),
+                'type',
+            ])
+        );
+
 
     })
 
