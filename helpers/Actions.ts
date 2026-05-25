@@ -53,7 +53,7 @@ export class Actions {
         }
     }
 
-    static async selectDropdown(locator: Locator, value: string, name?: string) {
+    static async selectOption(locator: Locator, value: string, name?: string) {
         const field = name || 'dropdown'
 
         try {
