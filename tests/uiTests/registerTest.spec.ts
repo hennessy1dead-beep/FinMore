@@ -1,8 +1,8 @@
 import { test, expect, Locator } from '@playwright/test'
-import { RegisterPage } from '../pages/RegisterPage'
-import { LoginPage } from '../pages/LoginPage'
-import { generateRandomUser } from '../helpers/dataRandomizer'
-import { generateFakeUser } from '../helpers/dataFaker'
+import { RegisterPage } from '../../pages/RegisterPage'
+import { LoginPage } from '../../pages/LoginPage'
+import { generateRandomUser } from '../../helpers/dataRandomizer'
+import { generateFakeUser } from '../../helpers/dataFaker'
 
 test.describe('Test sign up function', () => {
 
