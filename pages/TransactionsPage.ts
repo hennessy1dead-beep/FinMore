@@ -19,11 +19,14 @@ export class TransactionsPage {
 
     readonly toggleFiltersButton: Locator
     readonly filtersContainer: Locator
+
     readonly typeFilter: Locator
     readonly categoryFilter: Locator
     readonly dateFromFilter: Locator
     readonly dateToFilter: Locator
     readonly searchFilter: Locator
+
+    readonly items: Locator
 
 
     constructor(page: Page) {
@@ -49,6 +52,8 @@ export class TransactionsPage {
         this.dateFromFilter = page.getByTestId('date-from-filter')
         this.dateToFilter = page.getByTestId('date-to-filter')
         this.searchFilter = page.getByTestId('search-filter')
+
+        this.items = page.locator('[data-testid^="transaction-item-"]')
 
     }
 
@@ -129,11 +134,27 @@ export class TransactionsPage {
         await expect(this.filtersContainer).toBeVisible()
     }
 
-    async setFilters(type: string, category: string, dateFrom: string, dateTo: string, search: string) {
-        await Actions.selectOption(this.typeFilter, type, 'Фільтр по Типу')
-        await Actions.selectOption(this.categoryFilter, category, 'Фільтр по Категорії')
-        await Actions.fillField(this.dateFromFilter, dateFrom, 'Фільтр по Даті від')
-        await Actions.fillField(this.dateToFilter, dateTo, 'Фільтр по Даті до')
-        await Actions.fillField(this.searchFilter, search, 'Фільтр по Пошуку')
+    async setType(value: string) {
+        await this.typeFilter.selectOption(value);
+    }
+
+    async setCategory(value: string) {
+        await this.categoryFilter.selectOption(value);
+    }
+
+    async setSearch(text: string) {
+        await this.searchFilter.fill(text);
+    }
+
+    async setDateFrom(date: string) {
+        await this.dateFromFilter.fill(date);
+    }
+
+    async setDateTo(date: string) {
+        await this.dateToFilter.fill(date);
+    }
+
+    async expectItemsCount(count: number) {
+        await expect(this.items).toHaveCount(count);
     }
 }

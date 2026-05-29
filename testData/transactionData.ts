@@ -24,7 +24,7 @@ export const EditedTransactionData: TransactionData = {
     inputAmount: '150',
     expectedAmount: '-150.00 UAH',
     category: 'Розваги',
-    description: 'edited test',
+    description: 'edited',
     inputDate: '2026-06-10',
     expectedDate: '10.06.2026',
     account: 'Картка Монобанку'
