@@ -9,11 +9,12 @@ export class TransactionsPage {
     readonly amountInput: Locator
     readonly categorySelect: Locator
     readonly descriptionInput: Locator
+    readonly dateInput: Locator
     readonly accountSelect: Locator
     readonly submitButton: Locator
 
     readonly transactionsTable: Locator
-    readonly dateInput: Locator
+    
 
     constructor(page: Page) {
         this.page = page
@@ -54,8 +55,21 @@ export class TransactionsPage {
         return id
     }
 
-    getTransaction(id: string): Locator {
+    getTransactionById(id: string): Locator {
         return this.page.locator(`[data-testid="transaction-item-${id}"]`)
+    }
+    
+    getLastTransactionId() {
+        return this.transactionsTable
+            .locator('[data-testid^="transaction-item-"]')
+            .first()
+            .getAttribute('data-testid')
+            .then(testId => {
+                if (!testId) {
+                    throw new Error('transaction-item has no data-testid')
+                }
+                return testId.replace('transaction-item-', '')
+            })
     }
 
     async expectTransactionData(params: {
@@ -66,7 +80,7 @@ export class TransactionsPage {
         date: string
         account: string
     }) {
-        const item = this.getTransaction(params.id)
+        const item = this.getTransactionById(params.id)
 
         await expect(item).toBeVisible()
 
