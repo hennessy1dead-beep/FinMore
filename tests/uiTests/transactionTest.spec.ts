@@ -1,31 +1,37 @@
-import { test, expect, Page } from '@playwright/test'
+//import { test, expect, Page } from '@playwright/test'
 import { LoginPage } from '../../pages/LoginPage'
 import { Menu } from '../../pages/components/Menu'
 import { TransactionsPage } from '../../pages/TransactionsPage'
+import { test, expect } from '../../fixtures/auth.fixture'
 
 test.describe('Test transaction function', () => {
 
-    let loginPage: LoginPage
-
-    const userEmail = 'user@demo.com'
-    const userPassword = 'user123'
-    const userName = 'User Demo'
-
-    test.beforeEach(async ({ page }) => {
-        loginPage = new LoginPage(page)
-        await loginPage.openMainPage()
-        await loginPage.fillAndLogin(userEmail, userPassword)
-        await expect(loginPage.header.userMenu).toBeVisible()
-        await expect(loginPage.header.userMenu).toHaveText(userName)
-    })
-
-    test('Create new transaction', async ({ page }) => {
+    test('Create new transaction', async ({ page, authenticatedPage }) => {
         const menu = new Menu(page)
         const transactionsPage = await menu.navigateToTransactions()
 
-        await transactionsPage.createTransaction('100', 'Продукти', 'Test transaction', 'Картка Монобанку')
+        const amount = '-100.00 UAH'
+        const category = 'Продукти'
+        const description = 'test'
+        const inputDate = '2026-05-07'
+        const expectedDate = '07.05.2026'
+        const account = 'Готівка'
 
-        await expect(transactionsPage.transactionsTable).toBeVisible()
-        await expect(transactionsPage.transactionsTable).toContainText('Test transaction')
+        const transactionId = await transactionsPage.createTransaction(
+            '100',
+            category,
+            description,
+            inputDate,
+            account
+        )
+
+        await transactionsPage.expectTransactionData({
+            id: transactionId,
+            description,
+            category,
+            amount,
+            date: expectedDate,
+            account
+        })
     })
 })

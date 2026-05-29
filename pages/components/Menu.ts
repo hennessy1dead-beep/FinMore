@@ -1,15 +1,6 @@
 import { Page, Locator } from '@playwright/test'
 import { TransactionsPage } from '../TransactionsPage'
 
-//nav-dashboard
-//nav-transactions
-//nav-categories
-//nav-budgets
-//nav-accounts
-//nav-reports
-//nav-analytics
-//nav-settings
-
 export class Menu {
     readonly page: Page
     readonly dashboardLink: Locator
