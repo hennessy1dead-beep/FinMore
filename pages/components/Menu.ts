@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test'
 import { TransactionsPage } from '../TransactionsPage'
+import { BudgetsPage } from '../BudgetsPage.ts'
 
 export class Menu {
     readonly page: Page
@@ -27,5 +28,10 @@ export class Menu {
     async navigateToTransactions() {
         await this.transactionsLink.click()
         return new TransactionsPage(this.page)
+    }
+
+    async navigateToBudgets() {
+        await this.budgetsLink.click()
+        return new BudgetsPage(this.page)
     }
 }

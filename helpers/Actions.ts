@@ -60,7 +60,16 @@ export class Actions {
             console.log(` [SELECT] ${field}: ${value}`)
 
             await locator.waitFor({ state: 'visible' })
-            await locator.selectOption(value)
+            const tagName = await locator.evaluate((el) => el.tagName.toLowerCase())
+
+            if (tagName === 'select') {
+                await locator.selectOption({ label: value })
+            } else {
+                await locator.click()
+                const option = locator.locator(`text="${value}"`).first()
+                await option.waitFor({ state: 'visible' })
+                await option.click()
+            }
 
             console.log(`[SELECT SUCCESS] ${field}`)
         } catch (error) {

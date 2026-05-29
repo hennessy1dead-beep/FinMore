@@ -1,14 +1,9 @@
 //import { test, expect, Page } from '@playwright/test'
-import { LoginPage } from '../../pages/LoginPage'
-import { Menu } from '../../pages/components/Menu'
-import { TransactionsPage } from '../../pages/TransactionsPage'
-import { test, expect } from '../../fixtures/auth.fixture'
+import { test, expect } from '../../fixtures/navigation.fixture'
 
 test.describe('Test transaction function', () => {
 
-    test('Create new transaction', async ({ page, authenticatedPage }) => {
-        const menu = new Menu(page)
-        const transactionsPage = await menu.navigateToTransactions()
+    test('Create new transaction', async ({ page, transactionsPage }) => {
 
         const amount = '-100.00 UAH'
         const category = 'Продукти'
