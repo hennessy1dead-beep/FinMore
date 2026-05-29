@@ -78,6 +78,32 @@ export class Actions {
         }
     }
 
+    static async enableToggle(locator: Locator, enabled: boolean = true, name?: string) {
+        const field = name || 'toggle'
+
+        try {
+            console.log(` [TOGGLE] ${field}: ${enabled ? 'enable' : 'disable'}`)
+
+            await locator.waitFor({ state: 'visible' })
+            const currentState = await locator.isEnabled()
+
+            if (currentState !== enabled) {
+                await locator.click()
+            }
+
+            if (enabled) {
+                await expect(locator).toBeEnabled()
+            } else {
+                await expect(locator).toBeDisabled()
+            }
+
+            console.log(`[TOGGLE SUCCESS] ${field}: ${enabled ? 'enabled' : 'disabled'}`)
+        } catch (error) {
+            console.error(` [TOGGLE ERROR] ${field}`)
+            throw new Error(`Failed to ${enabled ? 'enable' : 'disable'} ${field}: ${error}`)
+        }
+    }
+
     static async getValidity(locator: Locator, fieldName?: string) {
         const name = fieldName || 'field';
 

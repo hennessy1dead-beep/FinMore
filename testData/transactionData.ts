@@ -12,7 +12,7 @@ export interface TransactionData {
 export const DefaultTransactionData: TransactionData = {
     inputAmount: '100',
     expectedAmount: '-100.00 UAH',
-    category: 'Продукти',
+    category: 'Транспорт',
     description: 'test',
     inputDate: '2026-05-07',
     expectedDate: '07.05.2026',
@@ -23,7 +23,7 @@ export const DefaultTransactionData: TransactionData = {
 export const EditedTransactionData: TransactionData = {
     inputAmount: '150',
     expectedAmount: '-150.00 UAH',
-    category: 'Ресторани',
+    category: 'Розваги',
     description: 'edited test',
     inputDate: '2026-06-10',
     expectedDate: '10.06.2026',

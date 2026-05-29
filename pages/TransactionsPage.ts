@@ -5,6 +5,8 @@ export class TransactionsPage {
     readonly page: Page
 
     readonly addTransactionButton: Locator
+    readonly transactionModal: Locator
+
     readonly expenseTypeButton: Locator
     readonly amountInput: Locator
     readonly categorySelect: Locator
@@ -14,10 +16,21 @@ export class TransactionsPage {
     readonly submitButton: Locator
 
     readonly transactionsTable: Locator
-    
+
+    readonly toggleFiltersButton: Locator
+    readonly filtersContainer: Locator
+    readonly typeFilter: Locator
+    readonly categoryFilter: Locator
+    readonly dateFromFilter: Locator
+    readonly dateToFilter: Locator
+    readonly searchFilter: Locator
+
 
     constructor(page: Page) {
         this.page = page
+
+        this.transactionModal = page.getByTestId('transaction-form-modal')
+
         this.addTransactionButton = page.getByTestId('add-transaction-page-button')
         this.expenseTypeButton = page.getByTestId('expense-type-button')
         this.amountInput = page.getByTestId('transaction-amount-input')
@@ -26,11 +39,21 @@ export class TransactionsPage {
         this.dateInput = page.getByTestId('transaction-date-input')
         this.accountSelect = page.getByTestId('transaction-account-select')
         this.submitButton = page.getByTestId('transaction-form-submit')
+
         this.transactionsTable = page.getByTestId('transaction-list-container')
+
+        this.toggleFiltersButton = page.getByTestId('toggle-filters-button')
+        this.filtersContainer = page.getByTestId('filters-container')
+        this.typeFilter = page.getByTestId('type-filter')
+        this.categoryFilter = page.getByTestId('category-filter')
+        this.dateFromFilter = page.getByTestId('date-from-filter')
+        this.dateToFilter = page.getByTestId('date-to-filter')
+        this.searchFilter = page.getByTestId('search-filter')
+
     }
 
     async createTransaction(amount: string, category: string, description: string, date: string, account: string) {
-        
+
         await Actions.click(this.addTransactionButton, 'Додати транзакцію')
         await Actions.click(this.expenseTypeButton, 'Тип транзакції')
         await Actions.fillField(this.amountInput, amount, 'Сума транзакції')
@@ -39,8 +62,8 @@ export class TransactionsPage {
         await Actions.fillField(this.dateInput, date, 'Дата транзакції')
         await Actions.selectOption(this.accountSelect, account, 'Рахунок транзакції')
         await Actions.click(this.submitButton, 'Створити транзакцію')
-       
-        //get id of first table item
+
+        //get id of first item in a table 
         const item = this.page
             .locator('[data-testid^="transaction-item-"]')
             .first()
@@ -51,6 +74,7 @@ export class TransactionsPage {
             throw new Error('transaction-item has no data-testid')
         }
 
+        //save created item id
         const id = testId.replace('transaction-item-', '')
         return id
     }
@@ -58,7 +82,7 @@ export class TransactionsPage {
     getTransactionById(id: string): Locator {
         return this.page.locator(`[data-testid="transaction-item-${id}"]`)
     }
-    
+
     getLastTransactionId() {
         return this.transactionsTable
             .locator('[data-testid^="transaction-item-"]')
@@ -99,5 +123,17 @@ export class TransactionsPage {
         await expect(item.locator(`[data-testid="transaction-account-${params.id}"]`))
             .toHaveText(params.account)
     }
-}
 
+    async openFilters() {
+        await Actions.click(this.toggleFiltersButton)
+        await expect(this.filtersContainer).toBeVisible()
+    }
+
+    async setFilters(type: string, category: string, dateFrom: string, dateTo: string, search: string) {
+        await Actions.selectOption(this.typeFilter, type, 'Фільтр по Типу')
+        await Actions.selectOption(this.categoryFilter, category, 'Фільтр по Категорії')
+        await Actions.fillField(this.dateFromFilter, dateFrom, 'Фільтр по Даті від')
+        await Actions.fillField(this.dateToFilter, dateTo, 'Фільтр по Даті до')
+        await Actions.fillField(this.searchFilter, search, 'Фільтр по Пошуку')
+    }
+}

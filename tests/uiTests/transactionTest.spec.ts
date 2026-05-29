@@ -1,6 +1,7 @@
 //import { test, expect, Page } from '@playwright/test'
 import { test, expect } from '../../fixtures/navigation.fixture'
 import { DefaultTransactionData, EditedTransactionData } from '../../testData/transactionData'
+import { AllTransportExpensesFilter, DefaultTransactionsFilter } from '../../testData/transactionsFilter'
 
 test.describe('Test transaction function', () => {
 
@@ -33,5 +34,18 @@ test.describe('Test transaction function', () => {
         await transactionsPage.descriptionInput.fill(EditedTransactionData.description)
         await transactionsPage.dateInput.fill(EditedTransactionData.inputDate)
         await transactionsPage.accountSelect.selectOption(EditedTransactionData.account)
+    })
+
+    test('Filter transactions by transport expenses for all time', async ({ page, transactionsPage }) => {
+        await transactionsPage.openFilters()
+        
+        await transactionsPage.setFilters(
+            AllTransportExpensesFilter.type,
+            AllTransportExpensesFilter.category,
+            AllTransportExpensesFilter.dateFrom,
+            AllTransportExpensesFilter.dateTo,
+            AllTransportExpensesFilter.search
+        )
+
     })
 })
