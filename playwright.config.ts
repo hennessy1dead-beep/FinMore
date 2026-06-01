@@ -44,6 +44,7 @@ export default defineConfig({
   reporter: [
     ['./custom-reporter.ts', reporterConfig],
     ['html'],
+    ['json', { outputFile: 'test-results/results.json' }],
     // ['list'],
   ],
 
