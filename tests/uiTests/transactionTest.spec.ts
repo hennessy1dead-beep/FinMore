@@ -5,7 +5,7 @@ import { DefaultTransactionData, EditedTransactionData } from '../../testData/tr
 test.describe('Test transaction function', () => {
 
 
-    test('Create 1 new transactions', async ({ page, transactionsPage }) => {
+    test('Create 1 new transaction', async ({ page, transactionsPage }) => {
 
         const transactionId = await transactionsPage.createTransaction(
             DefaultTransactionData.inputAmount,
