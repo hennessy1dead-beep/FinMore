@@ -41,6 +41,7 @@ test.describe('Student registration form', () => {
             await registrationForm.submitForm()
         })
 
+        //extend expects 
         await test.step('Verify form submission', async () => {
             const modalTitle = page.locator('#example-modal-sizes-title-lg')
             await expect(modalTitle).toBeVisible()
